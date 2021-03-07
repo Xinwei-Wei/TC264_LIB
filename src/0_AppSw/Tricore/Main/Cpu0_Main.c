@@ -1,6 +1,6 @@
-#include "..\Driver\include.h"//å„ä¸ªæ¨¡å—çš„å¤´æ–‡ä»¶
+#include "..\Driver\include.h"//¸÷¸öÄ£¿éµÄÍ·ÎÄ¼ş
 
-#define FeedSafetyDog() IfxScuWdt_serviceSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword())	//å–‚ç‹—
+#define FeedSafetyDog() IfxScuWdt_serviceSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword())	//Î¹¹·
 
 App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 
@@ -15,61 +15,61 @@ void Wdt_Init(uint16);
 
 int core0_main (void)
 {
-	speed_L=speed_R;
+
 }
 
-//ç³»ç»Ÿåˆå§‹åŒ–å‡½æ•°ç»„
+//ÏµÍ³³õÊ¼»¯º¯Êı×é
 void System_Init(void)
 {
-	//å…³é—­CPUæ€»ä¸­æ–­
+	//¹Ø±ÕCPU×ÜÖĞ¶Ï
 	IfxCpu_disableInterrupts();
 
-	//å…³é—­çœ‹é—¨ç‹—
+	//¹Ø±Õ¿´ÃÅ¹·
 	IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
 	IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
 
-	//è¯»å–æ€»çº¿é¢‘ç‡
+	//¶ÁÈ¡×ÜÏßÆµÂÊ
 	g_AppCpu0.info.pllFreq = IfxScuCcu_getPllFrequency();
 	g_AppCpu0.info.cpuFreq = IfxScuCcu_getCpuFrequency(IfxCpu_getCoreIndex());
 	g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
 	g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-	//å¼€å¯çœ‹é—¨ç‹—ï¼Œ1100ms
+	//¿ªÆô¿´ÃÅ¹·£¬1100ms
 //	Wdt_Init(1100);
 	initTime();
 
-	//å¼€å¯CPUæ€»ä¸­æ–­
+	//¿ªÆôCPU×ÜÖĞ¶Ï
 	IfxCpu_enableInterrupts();
 }
 
-//å¤–è®¾åˆå§‹åŒ–å‡½æ•°ç»„
+//ÍâÉè³õÊ¼»¯º¯Êı×é
 void Periph_Init(void)
 {
-    OLED_Init();											//åˆå§‹åŒ–4çº¿OLED
-	IIC_Init();												//åˆå§‹åŒ–IIC
-	MPU6050_Init();											//åˆå§‹åŒ–MPU6050
-    UART_InitConfig(UART0_RX_P14_1,UART0_TX_P14_0, 115200);	//åˆå§‹åŒ–UART0ï¼Œæ³¢ç‰¹ç‡115200
-    ENC_InitConfig(ENC2_InPut_P33_7, ENC2_Dir_P33_6);		//åˆå§‹åŒ–Encoder_L
-    ENC_InitConfig(ENC4_InPut_P02_8, ENC4_Dir_P33_5);		//åˆå§‹åŒ–Encoder_R
-    ATOM_PWM_InitConfig(PWM_L, 5000, 12500);				//å·¦è½®PWMè¾“å‡ºï¼ŒåŸºå‡†å ç©ºæ¯”50%
-    PIN_InitConfig(DIR_L, PIN_MODE_OUTPUT, 1);				//å·¦è½®æ–¹å‘è¾“å‡ºï¼Œé»˜è®¤GND
-    ATOM_PWM_SetDuty(PWM_L, 0, 12500);						//å·¦è½®åœæ­¢
-    ATOM_PWM_InitConfig(PWM_R, 5000, 12500);				//å³è½®PWMè¾“å‡ºï¼ŒåŸºå‡†å ç©ºæ¯”50%
-    PIN_InitConfig(DIR_R, PIN_MODE_OUTPUT, 0);				//å³è½®æ–¹å‘è¾“å‡ºï¼Œé»˜è®¤VCC
-    ATOM_PWM_SetDuty(PWM_R, 0, 12500);						//å³è½®åœæ­¢
-    GPIO_LED_Init();										//åˆå§‹åŒ–LEDï¼ŒP10.6ã€P10.5
-    GPIO_KEY_Init();										//åˆå§‹åŒ–æŒ‰é”®
-    STM_InitConfig(STM0, STM_Channel_0, 10000);				//åˆå§‹åŒ–PIDæ§åˆ¶å®šæ—¶å™¨ï¼Œä¸­æ–­é—´éš”10ms
+    OLED_Init();											//³õÊ¼»¯4ÏßOLED
+	IIC_Init();												//³õÊ¼»¯IIC
+	MPU6050_Init();											//³õÊ¼»¯MPU6050
+    UART_InitConfig(UART0_RX_P14_1,UART0_TX_P14_0, 115200);	//³õÊ¼»¯UART0£¬²¨ÌØÂÊ115200
+    ENC_InitConfig(ENC2_InPut_P33_7, ENC2_Dir_P33_6);		//³õÊ¼»¯Encoder_L
+    ENC_InitConfig(ENC4_InPut_P02_8, ENC4_Dir_P33_5);		//³õÊ¼»¯Encoder_R
+    ATOM_PWM_InitConfig(PWM_L, 5000, 12500);				//×óÂÖPWMÊä³ö£¬»ù×¼Õ¼¿Õ±È50%
+    PIN_InitConfig(DIR_L, PIN_MODE_OUTPUT, 1);				//×óÂÖ·½ÏòÊä³ö£¬Ä¬ÈÏGND
+    ATOM_PWM_SetDuty(PWM_L, 0, 12500);						//×óÂÖÍ£Ö¹
+    ATOM_PWM_InitConfig(PWM_R, 5000, 12500);				//ÓÒÂÖPWMÊä³ö£¬»ù×¼Õ¼¿Õ±È50%
+    PIN_InitConfig(DIR_R, PIN_MODE_OUTPUT, 0);				//ÓÒÂÖ·½ÏòÊä³ö£¬Ä¬ÈÏVCC
+    ATOM_PWM_SetDuty(PWM_R, 0, 12500);						//ÓÒÂÖÍ£Ö¹
+    GPIO_LED_Init();										//³õÊ¼»¯LED£¬P10.6¡¢P10.5
+    GPIO_KEY_Init();										//³õÊ¼»¯°´¼ü
+    STM_InitConfig(STM0, STM_Channel_0, 10000);				//³õÊ¼»¯PID¿ØÖÆ¶¨Ê±Æ÷£¬ÖĞ¶Ï¼ä¸ô10ms
 }
 
-//çœ‹é—¨ç‹—åˆå§‹åŒ–å‡½æ•°
+//¿´ÃÅ¹·³õÊ¼»¯º¯Êı
 void Wdt_Init(uint16 ms)
 {
-	uint16 num = ms * 6;													//è®¡ç®—å–‚ç‹—é—´éš”
-	Ifx_SCU_WDTS *SafetyWatchdog = &MODULE_SCU.WDTS;						//çœ‹é—¨ç‹—é€‰æ‹©
-	IfxScuWdt_Config Wdt_config;											//çœ‹é—¨ç‹—é…ç½®ç»“æ„ä½“
-	IfxScuWdt_initConfig(&Wdt_config);										//åˆå§‹åŒ–é…ç½®ç»“æ„ä½“
-	Wdt_config.reload = 0xFFFF - num;										//é…ç½®æ—¶é—´
-	IfxScuWdt_initSafetyWatchdog(SafetyWatchdog, &Wdt_config);				//åˆå§‹åŒ–çœ‹é—¨ç‹—
-	IfxScuWdt_enableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());	//ä½¿èƒ½çœ‹é—¨ç‹—
+	uint16 num = ms * 6;													//¼ÆËãÎ¹¹·¼ä¸ô
+	Ifx_SCU_WDTS *SafetyWatchdog = &MODULE_SCU.WDTS;						//¿´ÃÅ¹·Ñ¡Ôñ
+	IfxScuWdt_Config Wdt_config;											//¿´ÃÅ¹·ÅäÖÃ½á¹¹Ìå
+	IfxScuWdt_initConfig(&Wdt_config);										//³õÊ¼»¯ÅäÖÃ½á¹¹Ìå
+	Wdt_config.reload = 0xFFFF - num;										//ÅäÖÃÊ±¼ä
+	IfxScuWdt_initSafetyWatchdog(SafetyWatchdog, &Wdt_config);				//³õÊ¼»¯¿´ÃÅ¹·
+	IfxScuWdt_enableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());	//Ê¹ÄÜ¿´ÃÅ¹·
 }
