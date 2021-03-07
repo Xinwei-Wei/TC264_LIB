@@ -15,7 +15,46 @@ void Wdt_Init(uint16);
 
 int core0_main (void)
 {
-
+	System_Init();	//系统初始化
+	Periph_Init();	//外设初始化
+    while(1)
+	{
+    	FeedSafetyDog();
+    	OLED_NUM(0, 0, ang, 5, 3, 2);
+    	OLED_NUM(0, 2, afr, 5, 3, 2);
+    	OLED_NUM(0, 4, target_Angle, 5, 3, 2);
+    	OLED_NUM(0, 6, target_Speed, 5, 3, 2);
+    	if(!KEY_Read(KEY1))
+    	{
+    		delayms(10);
+    		if(!KEY_Read(KEY1))
+    		{
+//    			target_L = 100;
+//    			target_R = 0;
+    			flag = 1;
+    		}
+    		while(!KEY_Read(KEY1));
+    	}
+    	if(!KEY_Read(KEY0))
+    	{
+    		delayms(10);
+    		if(!KEY_Read(KEY0))
+    		{
+//    			target_L = 0;
+//    			target_R = 0;
+    			flag = 0;
+    		}
+    		while(!KEY_Read(KEY0));
+    	}
+    	Test_Send_User(speed_L,100,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    	delayms(100);
+//    	LED_Ctrl(LED0,RVS);
+//    	LED_Ctrl(LED2,RVS);
+//    	LED_Ctrl(LED1,RVS);
+//    	LED_Ctrl(LED3,RVS);
+//    	delayms(50);
+	}
+	return 0;
 }
 
 //系统初始化函数组
