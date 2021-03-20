@@ -6,7 +6,7 @@ App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 
 extern double pwm_L, Pwm_L, pwm_R, Pwm_R;
 extern int	target_Speed, speed_L, postion_L, target_L, speed_R, postion_R, target_R;
-extern float err_Angle, errLast_Angle, target_Angle, ang, gyr, afr;
+//extern float err_Angle, errLast_Angle, target_Angle, ang, gyr, afr;
 extern int flag;
 
 void System_Init(void);
@@ -20,9 +20,9 @@ int core0_main (void)
     while(1)
 	{
     	FeedSafetyDog();
-    	OLED_NUM(0, 0, ang, 5, 3, 2);
-    	OLED_NUM(0, 2, afr, 5, 3, 2);
-    	OLED_NUM(0, 4, target_Angle, 5, 3, 2);
+//    	OLED_NUM(0, 0, ang, 5, 3, 2);
+//    	OLED_NUM(0, 2, afr, 5, 3, 2);
+//    	OLED_NUM(0, 4, target_Angle, 5, 3, 2);
     	OLED_NUM(0, 6, target_Speed, 5, 3, 2);
     	if(!KEY_Read(KEY1))
     	{
@@ -85,8 +85,8 @@ void System_Init(void)
 void Periph_Init(void)
 {
     OLED_Init();											//初始化4线OLED
-	IIC_Init();												//初始化IIC
-	MPU6050_Init();											//初始化MPU6050
+//	IIC_Init();												//初始化IIC
+//	MPU6050_Init();											//初始化MPU6050
     UART_InitConfig(UART0_RX_P14_1,UART0_TX_P14_0, 115200);	//初始化UART0，波特率115200
     ENC_InitConfig(ENC2_InPut_P33_7, ENC2_Dir_P33_6);		//初始化Encoder_L
     ENC_InitConfig(ENC4_InPut_P02_8, ENC4_Dir_P33_5);		//初始化Encoder_R

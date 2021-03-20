@@ -23,14 +23,14 @@ QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ*/
 
 //PID相关宏定义
 #define PERIOD_DISTANCE		10.5		//一个计数周期（0-65535）的距离
-#define ANGLE_MID			7.45		//平衡机械中值
+//#define ANGLE_MID			7.45		//平衡机械中值
 
 //PID相关参数定义
 double Kp_Speed_L=0.500, Ki_Speed_L=0.0000, Kd_Speed_L=3.40;	//左轮速度P、I、D
 double Kp_Speed_R=0.500, Ki_Speed_R=0.0000, Kd_Speed_R=3.40;	//右轮速度P、I、D
-double Kp_Angle=25.00, Ki_Angle=0.000, Kd_Angle=0.000;			//平衡P、I、D
-double Kp_Accel=0.050, Ki_Accel=0.000, Kd_Accel=0.000;			//加速P、I、D
-double Kp_Veloc=0.100, Ki_Veloc=0.000, Kd_Veloc=0.000;			//速度P、I、D
+//double Kp_Angle=25.00, Ki_Angle=0.000, Kd_Angle=0.000;			//平衡P、I、D
+//double Kp_Accel=0.050, Ki_Accel=0.000, Kd_Accel=0.000;			//加速P、I、D
+//double Kp_Veloc=0.100, Ki_Veloc=0.000, Kd_Veloc=0.000;			//速度P、I、D
 
 //PID相关变量定义
 double error_L=0, errSum_L=0, errLast_L=0;	//左轮转速误差、误差总和、上次误差
@@ -41,9 +41,9 @@ int CNT_SPEED_L=0, Period_Counter_L=0, now_L=0, before_L=0;							//左轮转速、圈
 int CNT_SPEED_R=0, Period_Counter_R=0, now_R=0, before_R=0;							//右轮转速、圈数、读数、上次读数
 int	target_Speed, speed_L, postion_L, target_L=0, speed_R, postion_R, target_R=0;	//目标转速、瞬时转速、位置、目标转速
 
-float err_Angle, errLast_Angle, target_Angle, ang, gyr, afr;	//角度误差、上次误差、目标角度，MPU6050返回值：角度、角速度、前进加速度
-float err_Accel, errLast_Accel, target_Accel;					//加速误差、上次误差、目标加速
-float err_Veloc, errLast_Veloc, target_Veloc;					//速度误差、上次误差、目标速度
+//float err_Angle, errLast_Angle, target_Angle, ang, gyr, afr;	//角度误差、上次误差、目标角度，MPU6050返回值：角度、角速度、前进加速度
+//float err_Accel, errLast_Accel, target_Accel;					//加速误差、上次误差、目标加速
+//float err_Veloc, errLast_Veloc, target_Veloc;					//速度误差、上次误差、目标速度
 
 //监视与控制相关变量定义
 int flag=0;
@@ -101,20 +101,20 @@ void STM0_CH0_IRQHandler(void)
 	CNT_SPEED_R =  ENC_GetCounter(ENC4_InPut_P02_8);
 
 	//MPU6050回传角度、角速度、前进加速度
-	MPU_Get_Angle(&ang, &gyr, &afr);
+//	MPU_Get_Angle(&ang, &gyr, &afr);
 
-	//加速度控制（基于速度的目标加速度控制）
-	err_Veloc = target_Veloc - (CNT_SPEED_L + CNT_SPEED_R) / 2;
-	target_Accel = Kp_Veloc * err_Veloc;
-
-	//平衡角度控制（基于加速度的目标角度控制）
-	err_Accel = target_Accel - afr;
-	target_Angle = Kp_Accel * err_Accel + ANGLE_MID;
-
-	//平衡控制（基于角度的目标转速控制）
-	errLast_Angle = err_Angle;
-	err_Angle = ang - target_Angle;
-	target_Speed = Kp_Angle * err_Angle + Kd_Angle * (err_Angle - errLast_Angle);
+//	//加速度控制（基于速度的目标加速度控制）
+//	err_Veloc = target_Veloc - (CNT_SPEED_L + CNT_SPEED_R) / 2;
+//	target_Accel = Kp_Veloc * err_Veloc;
+//
+//	//平衡角度控制（基于加速度的目标角度控制）
+//	err_Accel = target_Accel - afr;
+//	target_Angle = Kp_Accel * err_Accel + ANGLE_MID;
+//
+//	//平衡控制（基于角度的目标转速控制）
+//	errLast_Angle = err_Angle;
+//	err_Angle = ang - target_Angle;
+//	target_Speed = Kp_Angle * err_Angle + Kd_Angle * (err_Angle - errLast_Angle);
 
 	//启停控制（基于主函数的目标转速控制）
 	switch(flag)
