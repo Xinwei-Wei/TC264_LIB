@@ -97,8 +97,9 @@ void STM0_CH0_IRQHandler(void)
 	/* 用户代码 */
 
 	//编码器回传转速
-	CNT_SPEED_L = -ENC_GetCounter(ENC2_InPut_P33_7);
-	CNT_SPEED_R =  ENC_GetCounter(ENC4_InPut_P02_8);
+	CNT_SPEED_L =  ENC_GetCounter(ENC4_InPut_P02_8);
+	CNT_SPEED_R = -ENC_GetCounter(ENC2_InPut_P33_7);
+
 
 	//MPU6050回传角度、角速度、前进加速度
 //	MPU_Get_Angle(&ang, &gyr, &afr);
@@ -119,7 +120,7 @@ void STM0_CH0_IRQHandler(void)
 	//启停控制（基于主函数的目标转速控制）
 	switch(flag)
 	{
-		case 1: target_L = target_Speed; target_R = target_Speed; break;
+		case 1: target_L = 100; target_R = 0; break;
 		case 0: target_L = 0; target_R = 0; break;
 	}
 
@@ -141,16 +142,16 @@ void STM0_CH0_IRQHandler(void)
 	pwm_L += Kp_Speed_L * error_L + Ki_Speed_L * errSum_L + Kd_Speed_L * (error_L - errLast_L);
 
 	//左轮死区消除
-	if(pwm_L > 0)
-		Pwm_L += 50;
-	if(pwm_L < 0)
-		Pwm_L -= 50;
+//	if(pwm_L > 0)
+//		pwm_L += 50;
+//	if(pwm_L < 0)
+//		pwm_L -= 50;
 
 	//左轮PWM限幅
-	if(Pwm_L > 2000)
-		Pwm_L = 2000;
-	if(Pwm_L < -2000)
-		Pwm_L = -2000;
+	if(pwm_L > 1600)
+		pwm_L = 1600;
+	if(pwm_L < -1600)
+		pwm_L = -1600;
 
 	//右轮转速计算
 	speed_R = getSpeed_R();
@@ -185,8 +186,10 @@ void STM0_CH0_IRQHandler(void)
 //	ATOM_PWM_SetDuty(ATOMPWM0, 3000, 12500);		//左轮测试
 //	ATOM_PWM_SetDuty(ATOMPWM4, Pwm_R*5/2, 12500);	//右轮控制
 //	ATOM_PWM_SetDuty(ATOMPWM4, 8000, 12500);		//右轮测试
-	setPWM_L(Pwm_L / 20.0);	//左轮控制（百分比）
-	setPWM_R(Pwm_R / 20.0);	//右轮控制（百分比）
+	setPWM_L(pwm_L / 20.0);	//左轮控制（百分比）
+//	setPWM_L(20);	//左轮控制（百分比）
+//	setPWM_R(Pwm_R / 20.0);	//右轮控制（百分比）
+	setPWM_R(0);	//右轮控制（百分比）
 
 	/*************************发送数据至上位机**************************/
 //	Test_Send_User(speed_L,postion_L,pwm_L,speed_R,postion_R,pwm_R,0,0,0,0,0,0,0,0,0);
@@ -453,12 +456,12 @@ void setPWM_L(double percent)
 {
 	if(percent >= 0)
 	{
-		PIN_Write(DIR_L, 1);
+		PIN_Write(DIR_L, 0);
 		ATOM_PWM_SetDuty(PWM_L, 100*percent, 12500);
 	}
 	else
 	{
-		PIN_Write(DIR_L, 0);
+		PIN_Write(DIR_L, 1);
 		ATOM_PWM_SetDuty(PWM_L, -100*percent, 12500);
 	}
 }
@@ -480,12 +483,12 @@ void setPWM_R(double percent)
 {
 	if(percent >= 0)
 	{
-		PIN_Write(DIR_R, 0);
+		PIN_Write(DIR_R, 1);
 		ATOM_PWM_SetDuty(PWM_R, 100*percent, 12500);
 	}
 	else
 	{
-		PIN_Write(DIR_R, 1);
+		PIN_Write(DIR_R, 0);
 		ATOM_PWM_SetDuty(PWM_R, -100*percent, 12500);
 	}
 }

@@ -2,7 +2,7 @@
 <stg format="2.0">
 	<OriginalWsp type="string">LQ_TC26xB_ASC_iROM.wsx</OriginalWsp>
 	<BackupWspFlag type="flag">0</BackupWspFlag>
-	<UseWspCnt type="int">0</UseWspCnt>
+	<UseWspCnt type="int">1</UseWspCnt>
 	<WspCloseCnt type="int">9</WspCloseCnt>
 	<ProdInfo type="bin" size="52">vQTv/gAAAQAGAAMAESADAAAABQAAAAAAPwAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAA==</ProdInfo>
 	<ProdInfoString type="string">5.0</ProdInfoString>
@@ -11965,4 +11965,5 @@ End Sub</ScriptSource>
 			</UCBs>
 		</Controller0>
 	</TargInfoFlags>
+	<BackupWsp type="string">LQ_TC26xB_ASC_iROM_032121164458.wsx</BackupWsp>
 </stg>
