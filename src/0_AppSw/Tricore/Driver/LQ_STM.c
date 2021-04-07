@@ -186,10 +186,10 @@ void STM0_CH0_IRQHandler(void)
 //	ATOM_PWM_SetDuty(ATOMPWM0, 3000, 12500);		//左轮测试
 //	ATOM_PWM_SetDuty(ATOMPWM4, Pwm_R*5/2, 12500);	//右轮控制
 //	ATOM_PWM_SetDuty(ATOMPWM4, 8000, 12500);		//右轮测试
-	setPWM_L(pwm_L / 20.0);	//左轮控制（百分比）
-//	setPWM_L(20);	//左轮控制（百分比）
+//	setPWM_L(pwm_L / 20.0);	//左轮控制（百分比）
+	setPWM_L(20);	//左轮控制（百分比）
 //	setPWM_R(Pwm_R / 20.0);	//右轮控制（百分比）
-	setPWM_R(0);	//右轮控制（百分比）
+	setPWM_R(20);	//右轮控制（百分比）
 
 	/*************************发送数据至上位机**************************/
 //	Test_Send_User(speed_L,postion_L,pwm_L,speed_R,postion_R,pwm_R,0,0,0,0,0,0,0,0,0);
