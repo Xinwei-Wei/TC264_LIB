@@ -60,6 +60,29 @@ void ATOM_PWM_InitConfig(IfxGtm_Atom_ToutMap pin, uint32_t duty, uint32_t pwmFre
 	g_atomConfig.synchronousUpdateEnabled = TRUE;                        //使能PWM同步更新
 }
 
+void ATOM_NPWM_InitConfig(IfxGtm_Atom_ToutMap pin, uint32_t duty, uint32_t pwmFreq_Hz)
+{
+	IfxGtm_enable(&MODULE_GTM); /* 使能 GTM */
+
+	IfxGtm_Cmu_setClkFrequency(&MODULE_GTM, IfxGtm_Cmu_Clk_0, ATOM_PWM_CLK); //设置 CMU clock 100M 频率
+	IfxGtm_Cmu_enableClocks(&MODULE_GTM, IFXGTM_CMU_CLKEN_CLK0);             //使能 CMU clock 0
+
+	IfxGtm_Atom_Pwm_initConfig(&g_atomConfig, &MODULE_GTM);
+
+	g_atomConfig.atom = pin.atom;                                //选择PWM输出管脚
+	g_atomConfig.atomChannel = pin.channel;                      //选择PWM输出管脚对应的通道
+	g_atomConfig.pin.outputPin = &pin;                           //设置输出管脚
+	g_atomConfig.period = ATOM_PWM_CLK / pwmFreq_Hz;             //设置输出周期
+	g_atomConfig.signalLevel = Ifx_ActiveState_low;
+	g_atomConfig.dutyCycle = (uint32)(duty * ((float)g_atomConfig.period / ATOM_PWM_MAX));//设置占空比
+
+	uint8 tempNum = (uint8)pin.atom * 8 + (uint8)pin.channel;
+
+	IfxGtm_Atom_Pwm_init(&g_AtomDriverPWM[tempNum], &g_atomConfig);      //ATOM_PWM初始化
+	IfxGtm_Atom_Pwm_start(&g_AtomDriverPWM[tempNum], TRUE);              //开始输出PWM
+
+	g_atomConfig.synchronousUpdateEnabled = TRUE;                        //使能PWM同步更新
+}
 /*************************************************************************
 *  函数名称：void ATOM_PWM_SetDuty(IfxGtm_Atom_ToutMap pin, uint32_t duty, uint32_t pwmFreq_Hz)
 *  功能说明：设置PWM频率和占空比

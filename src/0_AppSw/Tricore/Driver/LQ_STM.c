@@ -189,7 +189,7 @@ void STM0_CH0_IRQHandler(void)
 //	setPWM_L(pwm_L / 20.0);	//左轮控制（百分比）
 	setPWM_L(20);	//左轮控制（百分比）
 //	setPWM_R(Pwm_R / 20.0);	//右轮控制（百分比）
-	setPWM_R(20);	//右轮控制（百分比）
+	setPWM_R(40);	//右轮控制（百分比）
 
 	/*************************发送数据至上位机**************************/
 //	Test_Send_User(speed_L,postion_L,pwm_L,speed_R,postion_R,pwm_R,0,0,0,0,0,0,0,0,0);
@@ -454,16 +454,8 @@ double getSpeed_R(void)   //单位cm/s
   */
 void setPWM_L(double percent)
 {
-	if(percent >= 0)
-	{
-		PIN_Write(DIR_L, 0);
-		ATOM_PWM_SetDuty(PWM_L, 100*percent, 12500);
-	}
-	else
-	{
-		PIN_Write(DIR_L, 1);
-		ATOM_PWM_SetDuty(PWM_L, -100*percent, 12500);
-	}
+	ATOM_PWM_SetDuty(PWM_L1, 100*(50+percent/2.0), 12500);
+	ATOM_PWM_SetDuty(PWM_L2, 100*(50-percent/2.0), 12500);
 }
 
 /**
@@ -481,16 +473,8 @@ void setPWM_L(double percent)
   */
 void setPWM_R(double percent)
 {
-	if(percent >= 0)
-	{
-		PIN_Write(DIR_R, 1);
-		ATOM_PWM_SetDuty(PWM_R, 100*percent, 12500);
-	}
-	else
-	{
-		PIN_Write(DIR_R, 0);
-		ATOM_PWM_SetDuty(PWM_R, -100*percent, 12500);
-	}
+	ATOM_PWM_SetDuty(PWM_R1, 100*(50-percent/2.0), 12500);
+	ATOM_PWM_SetDuty(PWM_R2, 100*(50+percent/2.0), 12500);
 }
 
 /**

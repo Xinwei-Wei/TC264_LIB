@@ -90,12 +90,14 @@ void Periph_Init(void)
     UART_InitConfig(UART0_RX_P14_1,UART0_TX_P14_0, 115200);	//初始化UART0，波特率115200
     ENC_InitConfig(ENC2_InPut_P33_7, ENC2_Dir_P33_6);		//初始化Encoder_L
     ENC_InitConfig(ENC4_InPut_P02_8, ENC4_Dir_P33_5);		//初始化Encoder_R
-    ATOM_PWM_InitConfig(PWM_L, 5000, 12500);				//左轮PWM输出，基准占空比50%
-    PIN_InitConfig(DIR_L, PIN_MODE_OUTPUT, 1);				//左轮方向输出，默认GND
-    ATOM_PWM_SetDuty(PWM_L, 0, 12500);						//左轮停止
-    ATOM_PWM_InitConfig(PWM_R, 5000, 12500);				//右轮PWM输出，基准占空比50%
-    PIN_InitConfig(DIR_R, PIN_MODE_OUTPUT, 0);				//右轮方向输出，默认VCC
-    ATOM_PWM_SetDuty(PWM_R, 0, 12500);						//右轮停止
+    ATOM_PWM_InitConfig(PWM_L1, 5000, 12500);				//左轮PWM输出，基准占空比50%
+    ATOM_PWM_InitConfig(PWM_L2, 5000, 12500);				//左轮方向输出，默认GND
+    ATOM_PWM_SetDuty(PWM_L1, 5000, 12500);					//左轮停止
+    ATOM_PWM_SetDuty(PWM_L2, 5000, 12500);
+    ATOM_PWM_InitConfig(PWM_R1, 5000, 12500);				//右轮PWM输出，基准占空比50%
+    ATOM_PWM_InitConfig(PWM_R2, 5000, 12500);				//右轮方向输出，默认VCC
+    ATOM_PWM_SetDuty(PWM_R1, 5000, 12500);					//右轮停止
+    ATOM_PWM_SetDuty(PWM_R2, 5000, 12500);
     GPIO_LED_Init();										//初始化LED，P10.6、P10.5
     GPIO_KEY_Init();										//初始化按键
     STM_InitConfig(STM0, STM_Channel_0, 10000);				//初始化PID控制定时器，中断间隔10ms
